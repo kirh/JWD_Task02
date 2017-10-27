@@ -8,7 +8,7 @@ public class ServiceFactory {
 
     private final DOMParserService domParserService = new DOMParserServiceImpl();
 
-    private ServiceFactory(){};
+    private ServiceFactory(){}
 
     public DOMParserService getDOMParserService() {
         return domParserService;

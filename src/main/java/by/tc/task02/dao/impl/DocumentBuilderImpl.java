@@ -20,25 +20,34 @@ public class DocumentBuilderImpl implements by.tc.task02.dao.DocumentBuilder {
         return document;
     }
 
-    private void append(XMLToken xmlToken) throws DAOException {
+    private void append(final XMLToken xmlToken) throws DAOException {
 
         if (xmlToken.isClosingTag()) {
             currentElement = currentElement.getParent();
         } else {
-            Node node = nodeFactory.getNode(xmlToken);
-            if (currentElement == null) {
+            createNode(xmlToken);
+        }
+    }
+
+    private void createNode(final XMLToken xmlToken) throws DAOException {
+        Node node = null;
+        try {
+            node = nodeFactory.getNode(xmlToken);
+        } catch (NodeFactoryException e) {
+            throw new DAOException(e.getMessage(), e);
+        }
+        if (currentElement == null) {
+            currentElement = (Element) node;
+            document.setRootNode(currentElement);
+        } else {
+            currentElement.addChild(node);
+            if (xmlToken.isOpeningTag()) {
                 currentElement = (Element) node;
-                document.setRootNode(currentElement);
-            } else {
-                currentElement.addChild(node);
-                if (xmlToken.isOpeningTag()) {
-                    currentElement = (Element) node;
-                }
             }
         }
     }
 
-    public Document parse(Path path) throws DAOException{
+    public Document parse(final Path path) throws DAOException{
         try(XMLResource xmlResource = new XMLResource(path)){
             while (xmlResource.hasNext()){
                 append(xmlResource.next());

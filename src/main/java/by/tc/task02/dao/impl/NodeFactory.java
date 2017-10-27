@@ -1,6 +1,5 @@
 package by.tc.task02.dao.impl;
 
-import by.tc.task02.dao.DAOException;
 import by.tc.task02.entity.Element;
 import by.tc.task02.entity.Node;
 import by.tc.task02.entity.ValueNode;
@@ -12,27 +11,35 @@ class NodeFactory {
     private NodeFactory() {
     }
 
-    Node getNode(XMLToken xmlToken) throws DAOException {
+    Node getNode(final XMLToken xmlToken) throws NodeFactoryException {
 
         if (xmlToken.isOpeningTag() || xmlToken.isSelfClosingTag()) {
-            Element element = new Element();
-            element.setTagName(xmlToken.getTitle());
-            element.setAttributes(xmlToken.getAttributes());
-            return element;
+            return createElement(xmlToken);
         }
 
         if (xmlToken.isText() || xmlToken.isComment()) {
-            ValueNode valueNode = new ValueNode();
-            valueNode.setValue(xmlToken.getTitle());
-            return valueNode;
+            return createValueNode(xmlToken);
         }
 
         if (xmlToken.isDescriptor()) {
             return null;
         }
 
-        throw new DAOException();
+        throw new NodeFactoryException("No proper factory for \"" + xmlToken.getXmlTokenLine() + "\"");
 
+    }
+
+    private Node createValueNode(final XMLToken xmlToken) {
+        ValueNode valueNode = new ValueNode();
+        valueNode.setValue(xmlToken.getTitle());
+        return valueNode;
+    }
+
+    private Node createElement(final XMLToken xmlToken) {
+        Element element = new Element();
+        element.setTagName(xmlToken.getTitle());
+        element.setAttributes(xmlToken.getAttributes());
+        return element;
     }
 
     public static NodeFactory getInstance() {
