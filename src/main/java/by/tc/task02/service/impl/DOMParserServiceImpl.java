@@ -9,12 +9,15 @@ import by.tc.task02.service.DOMParserServiceException;
 
 import java.nio.file.Path;
 
-public class DOMParserServiceImpl  implements DOMParserService{
+public class DOMParserServiceImpl  implements DOMParserService {
 
     @Override
     public Document parse(Path path) throws DOMParserServiceException {
+
         DAOFactory daoFactory = DAOFactory.getInstance();
+
         DocumentBuilder documentBuilder = daoFactory.getXmlDocumentDAO();
+
         try {
             return documentBuilder.parse(path);
         } catch (DAOException e) {

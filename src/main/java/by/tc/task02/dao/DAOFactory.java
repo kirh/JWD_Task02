@@ -2,7 +2,7 @@ package by.tc.task02.dao;
 
 import by.tc.task02.dao.impl.DocumentBuilderImpl;
 
-public class DAOFactory {
+public final class DAOFactory {
     private static DAOFactory instance = new DAOFactory();
 
     private DAOFactory() {

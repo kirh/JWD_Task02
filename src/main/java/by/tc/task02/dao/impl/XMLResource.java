@@ -14,7 +14,7 @@ class XMLResource implements Closeable {
 
     private boolean closed;
 
-    XMLResource(Path path) throws IOException {
+    XMLResource(final Path path) throws IOException {
         resourceScanner = new Scanner(path);
         resourceScanner.useDelimiter(BEFORE_OR_AFTER_TAG);
 
@@ -29,10 +29,14 @@ class XMLResource implements Closeable {
     }
 
     @Override
-    public void close() {
+    public void close() throws IOException {
         if (!closed) {
             resourceScanner.close();
             closed = true;
+        }
+        IOException ioException = resourceScanner.ioException();
+        if (ioException != null) {
+            throw ioException;
         }
     }
 }

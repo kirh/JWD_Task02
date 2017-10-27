@@ -1,5 +1,6 @@
 package by.tc.task02.dao.impl;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -43,6 +44,10 @@ class XMLToken {
         parseTitle();
     }
 
+    public String getXmlTokenLine() {
+        return xmlTokenLine;
+    }
+
     String getTitle() {
         return title;
     }
@@ -82,29 +87,35 @@ class XMLToken {
         return XML_DESCRIPTOR.matcher(xmlTokenLine).matches();
     }
 
+
     private void parseAttributes() {
         if (isOpeningTag() || isSelfClosingTag()) {
 
             attributes = new HashMap<>();
 
-            final int KEY = 0;
-            final int VALUE = 1;
-
             Matcher matcher = ATTRIBUTE.matcher(xmlTokenLine);
 
             while (matcher.find()) {
 
-                String attributeLine = xmlTokenLine.substring(matcher.start(), matcher.end());
-
-                attributeLine.trim();
-
-                attributeLine = attributeLine.replaceAll("\"", "");
-
-                String[] entry = attributeLine.split("=");
-
-                attributes.put(entry[KEY], entry[VALUE]);
+                parseAttribute(matcher);
             }
         }
+    }
+
+    private void parseAttribute(final Matcher matcher) {
+
+        final int KEY = 0;
+        final int VALUE = 1;
+
+        String attributeLine = xmlTokenLine.substring(matcher.start(), matcher.end());
+
+        attributeLine.trim();
+
+        attributeLine = attributeLine.replaceAll("\"", "");
+
+        String[] entry = attributeLine.split("=");
+
+        attributes.put(entry[KEY], entry[VALUE]);
     }
 
     private void parseTitle() {

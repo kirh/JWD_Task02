@@ -2,13 +2,16 @@ package by.tc.task02.entity;
 
 public class ValueNode extends Node {
 
+    private static final long serialVersionUID = 1L;
+
     private String value;
+
 
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 

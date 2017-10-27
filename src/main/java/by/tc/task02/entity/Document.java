@@ -8,11 +8,11 @@ public class Document implements Serializable {
 
     private Element rootNode;
 
-    public Element getRootNode() {
+    public final Element getRootNode() {
         return rootNode;
     }
 
-    public void setRootNode(Element rootNode) {
+    public final void setRootNode(final Element rootNode) {
         this.rootNode = rootNode;
     }
 
