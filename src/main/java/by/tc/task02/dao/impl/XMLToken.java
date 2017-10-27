@@ -105,6 +105,7 @@ class XMLToken {
     private void parseAttribute(final Matcher matcher) {
 
         final int KEY = 0;
+
         final int VALUE = 1;
 
         String attributeLine = xmlTokenLine.substring(matcher.start(), matcher.end());

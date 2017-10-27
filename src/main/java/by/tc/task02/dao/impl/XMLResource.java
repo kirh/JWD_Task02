@@ -35,7 +35,9 @@ class XMLResource implements Closeable {
             closed = true;
         }
         IOException ioException = resourceScanner.ioException();
+
         if (ioException != null) {
+
             throw ioException;
         }
     }
